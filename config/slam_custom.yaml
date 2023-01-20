@@ -1,0 +1,16 @@
+custom_slam:
+  ros__parameters:
+
+    # ROS Parameters
+    odom_frame: odom         #frame name on TF for the odometry frame
+    map_frame: odom          #frame name of map frame
+    map_topic: /map          #topic to publish map
+    base_frame: base_link    #name of robot base link 
+    scan_topic: /scan        #topic to listen for laser scans
+
+    map_update_interval: 0.5 #update interval in seconds
+    map_width: 30.0          #map width (x) in meters
+    map_height: 16.0         #map height (y) in meters
+    resolution: 0.03         #map cell resolution
+    beam_width: 0.008         #beam width in radian
+    max_laser_range: 12.0    #for rastering images
