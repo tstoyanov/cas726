@@ -5,7 +5,7 @@
 #include <tf2_eigen/tf2_eigen.h> 
 
 void cas726::Mapper::laser_callback(const sensor_msgs::msg::LaserScan &scan) {
-  //RCLCPP_INFO(this->get_logger(), "Got laser message with %ld ranges", scan.ranges.size());
+  RCLCPP_INFO(this->get_logger(), "Got laser message with %ld ranges", scan.ranges.size());
 
   //TODO: implement laser callback
   // 0. lookup transform on TF
@@ -19,13 +19,14 @@ void cas726::Mapper::laser_callback(const sensor_msgs::msg::LaserScan &scan) {
 
 //create a message and publish to map update topic      
 void cas726::Mapper::map_update_callback() {
-  //RCLCPP_INFO(this->get_logger(), "Updating map");
+  RCLCPP_INFO(this->get_logger(), "Updating map");
 
   //update header
   map_msg_.info.map_load_time = now();
   map_msg_.header.stamp = now();
   this->update_map_msg();
-  map_publisher_->publish(map_msg_);
+  //TODO uncomment below
+  //map_publisher_->publish(map_msg_);
 }
 
 //update map to message
