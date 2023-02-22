@@ -102,9 +102,35 @@ def generate_launch_description():
         condition=IfCondition(LaunchConfiguration('rviz'))
     )
     
+    # lidar static transforms
+    front_lidar_stf = Node(
+            name='front_lidar_stf',
+            package='tf2_ros',
+            executable='static_transform_publisher',
+            output='screen',
+            arguments=[
+                '0', '0', '0', '0', '0.0', '0.0',
+                'base_link', [LaunchConfiguration('robot_name'), '/scan_front/scan_front']]
+        )
+
+    # camera static transforms
+    front_cam_stf = Node(
+            name='camera_stf',
+            package='tf2_ros',
+            executable='static_transform_publisher',
+            output='screen',
+            arguments=[
+                '0', '0', '0', '0', '0', '0',
+                'base_link',
+                [LaunchConfiguration('robot_name'), '/camera_front/depth']
+            ]
+        )
+    
     # Define LaunchDescription variable
     ld = LaunchDescription(ARGUMENTS)
     ld.add_action(ignition_gazebo)
     ld.add_action(tugbot_bridge)
     ld.add_action(rviz2)
+    ld.add_action(front_lidar_stf)
+    ld.add_action(front_cam_stf)
     return ld

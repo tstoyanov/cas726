@@ -102,7 +102,7 @@ def generate_launch_description():
                 '/link/camera_front/sensor/color/image' ],
              '/front/color_image'),
             (['/world/world_demo/model/', LaunchConfiguration('robot_name'),
-                '/link/camera_front/sensor/color/image/camera_infor' ],
+                '/link/camera_front/sensor/color/image/camera_info' ],
              '/front/color_image/camera_info'),
             (['/world/world_demo/model/', LaunchConfiguration('robot_name'),
                 '/link/camera_front/sensor/depth/depth_image' ],
@@ -114,6 +114,26 @@ def generate_launch_description():
                 '/link/camera_front/sensor/depth/depth_image/points' ],
              '/front/points'),
                 ])
+    # laser front bridge
+    lidar_front_bridge = Node(
+        package='ros_ign_bridge',
+        executable='parameter_bridge',
+        namespace=namespace,
+        name='lidar_front_bridge',
+        output='screen',
+        parameters=[{
+            'use_sim_time': use_sim_time
+        }],
+        arguments=[
+            ['/world/world_demo/model/', LaunchConfiguration('robot_name'),
+             '/link/scan_front/sensor/scan_front/scan' +
+             '@sensor_msgs/msg/LaserScan[ignition.msgs.LaserScan']
+        ],
+        remappings=[
+            (['/world/world_demo/model/', LaunchConfiguration('robot_name'),
+              '/link/scan_front/sensor/scan_front/scan'],
+             '/front/scan')
+        ])
 
     # Create launch description and add actions
     ld = LaunchDescription(ARGUMENTS)
@@ -121,4 +141,5 @@ def generate_launch_description():
     ld.add_action(cmd_vel_bridge)
     ld.add_action(odom_base_tf_bridge)
     ld.add_action(front_camera_bridge)
+    ld.add_action(lidar_front_bridge)
     return ld
