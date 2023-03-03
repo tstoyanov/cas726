@@ -13,10 +13,12 @@ find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(cas726_interfaces REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(tf2_eigen REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
+
 
 add_executable(mapper src/mapper.cpp)
 target_include_directories(mapper PUBLIC
@@ -28,6 +30,18 @@ ament_target_dependencies(mapper rclcpp sensor_msgs nav_msgs geometry_msgs
 	tf2 tf2_ros tf2_eigen tf2_geometry_msgs)
 
 install(TARGETS mapper
+  DESTINATION lib/${PROJECT_NAME})
+
+add_executable(landmark_mapper src/landmark_mapper.cpp)
+target_include_directories(landmark_mapper PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>)
+target_compile_features(landmark_mapper PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+
+ament_target_dependencies(landmark_mapper rclcpp sensor_msgs cas726_interfaces 
+	tf2 tf2_ros tf2_eigen tf2_geometry_msgs)
+
+install(TARGETS landmark_mapper
   DESTINATION lib/${PROJECT_NAME})
 
 # Install launch files.
@@ -45,6 +59,12 @@ install(DIRECTORY
 # Install rviz folder.
 install(DIRECTORY
   rviz
+  DESTINATION share/${PROJECT_NAME}/
+)
+
+# Install worlds folder.
+install(DIRECTORY
+  worlds
   DESTINATION share/${PROJECT_NAME}/
 )
 

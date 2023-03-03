@@ -75,13 +75,18 @@ def generate_launch_description():
         [pkg_cas726, 'launch', 'tugbot_bridge.launch.py'])
     rviz2_config = PathJoinSubstitution(
         [pkg_cas726, 'rviz', 'robot.rviz'])
+    
+    ign_resource_path = SetEnvironmentVariable(
+        name='IGN_GAZEBO_RESOURCE_PATH',
+        value=[os.path.join(pkg_cas726, 'worlds/')])
 
     # Ignition gazebo
     ignition_gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([ign_gazebo_launch]),
         launch_arguments=[
             ('ign_args', [
-                ' -v 4 -r "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/worlds/Tugbot in Warehouse"'])
+                'tugbot_warehouse_mod.sdf -v 4 -r'])
+                #' -v 4 -r "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/worlds/Tugbot in Warehouse"'])
         ]
     )
 
