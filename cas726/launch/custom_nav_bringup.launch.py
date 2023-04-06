@@ -99,7 +99,8 @@ def generate_launch_description():
 
     declare_params_file_cmd = DeclareLaunchArgument(
         'params_file',
-        default_value=os.path.join(turtlebot4_navigation_dir, 'config', 'nav2.yaml'),
+#       default_value=os.path.join(turtlebot4_navigation_dir, 'config', 'nav2.yaml'),
+        default_value=os.path.join(cas726_dir, 'config', 'nav2.yaml'),
         description='Full path to the ROS2 parameters file to use for all launched nodes')
 
     declare_autostart_cmd = DeclareLaunchArgument(
